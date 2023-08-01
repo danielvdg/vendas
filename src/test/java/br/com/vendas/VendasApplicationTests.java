@@ -1,4 +1,4 @@
-package br.com.vendas.vendas;
+package br.com.vendas;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
