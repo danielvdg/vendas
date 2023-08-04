@@ -37,8 +37,6 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private Set<Pedido> pedidos;
 
-    private String teste;
-
     public Cliente(String name) {
         this.name = name;
     }
