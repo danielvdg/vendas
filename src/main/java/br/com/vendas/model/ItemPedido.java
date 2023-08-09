@@ -25,7 +25,7 @@ public class ItemPedido {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private long id;
+    private Long id;
     
     @ManyToOne
     @JoinColumn(name = "pedido_id")
