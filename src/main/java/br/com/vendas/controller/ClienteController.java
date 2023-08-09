@@ -53,7 +53,7 @@ public class ClienteController {
     @PutMapping(path = "{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable Long id,
-                                  @RequestBody Cliente cliente) {
+                       @RequestBody Cliente cliente) {
         clienteRepository
                 .findById(id)
                 .map(clienteExistente -> {
@@ -65,9 +65,9 @@ public class ClienteController {
     }
 
     @GetMapping
-    public  List<Cliente> find( Cliente filtro){
+    public List<Cliente> find( Cliente filtro){
         ExampleMatcher matcher = ExampleMatcher
-                .matching()
+                .matchingAll()
                 .withIgnoreCase()
                 .withStringMatcher(
                         ExampleMatcher.StringMatcher.CONTAINING
