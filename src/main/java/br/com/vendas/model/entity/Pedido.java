@@ -1,19 +1,14 @@
-package br.com.vendas.model;
+package br.com.vendas.model.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import br.com.vendas.model.entity.Cliente;
+import br.com.vendas.model.entity.ItemPedido;
+import br.com.vendas.model.enums.StatusPedidoEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,8 +33,12 @@ public class Pedido {
     @Column(name = "data_pedido")
     private LocalDate dataPedido;
 
-    @Column(name = "total", scale = 20, precision = 2)
+    @Column(name = "total", scale = 2, precision = 20   )
     private BigDecimal total;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private StatusPedidoEnum status;
 
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens;

@@ -1,14 +1,16 @@
 package br.com.vendas.controller;
 
-import br.com.vendas.model.Cliente;
+import br.com.vendas.model.entity.Cliente;
 import br.com.vendas.repository.ClienteRepository;
 import br.com.vendas.service.ClienteService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,9 +20,17 @@ public class ClienteController {
     private final ClienteRepository clienteRepository;
     private final ClienteService clienteService;
 
+    @Value("${application.name}")
+    public String message;
+
     public ClienteController(ClienteRepository clienteRepository, ClienteService clienteService) {
         this.clienteRepository = clienteRepository;
         this.clienteService = clienteService;
+    }
+
+    @GetMapping(path = "/ambiente")
+    public String testeAmbiente(String message){
+        return this.message;
     }
 
     @GetMapping("/{id}")
@@ -33,7 +43,7 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente create (@RequestBody Cliente cliente) {
+    public Cliente create (@RequestBody @Valid Cliente cliente) {
         return clienteService.save(cliente);
     }
 
@@ -66,8 +76,8 @@ public class ClienteController {
 
     @GetMapping
     public List<Cliente> find( Cliente filtro){
-        ExampleMatcher matcher = ExampleMatcher
-                .matchingAll()
+            ExampleMatcher matcher = ExampleMatcher
+                .matchingAny()
                 .withIgnoreCase()
                 .withStringMatcher(
                         ExampleMatcher.StringMatcher.CONTAINING
