@@ -1,4 +1,4 @@
-package br.com.vendas.model;
+package br.com.vendas.model.entity;
 
 import java.util.Set;
 
@@ -10,12 +10,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.br.CPF;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,9 +33,11 @@ public class Cliente {
     private long id;
     
     @Column(name = "name", length = 100)
+    @NotEmpty(message = "{campo.nome.obrigatorio}")
     private String name;
 
     @Column(name = "cpf", length = 11)
+    @CPF(message = "{campo.cpf.obrigatorio}")
     private String cpf;
 
     @JsonIgnore

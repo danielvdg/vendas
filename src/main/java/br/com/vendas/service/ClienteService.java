@@ -1,6 +1,6 @@
 package br.com.vendas.service;
 
-import br.com.vendas.model.Cliente;
+import br.com.vendas.model.entity.Cliente;
 import br.com.vendas.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
 

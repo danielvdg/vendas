@@ -1,12 +1,14 @@
 package br.com.vendas.service.impl;
 
+import br.com.vendas.exception.PedidoNaoEncontradoException;
 import br.com.vendas.exception.RegraNegocioException;
-import br.com.vendas.model.Cliente;
-import br.com.vendas.model.ItemPedido;
-import br.com.vendas.model.Pedido;
-import br.com.vendas.model.Produto;
+import br.com.vendas.model.entity.Cliente;
+import br.com.vendas.model.entity.ItemPedido;
+import br.com.vendas.model.entity.Pedido;
+import br.com.vendas.model.entity.Produto;
 import br.com.vendas.model.dto.ItemPedidoDTO;
 import br.com.vendas.model.dto.PedidoDTO;
+import br.com.vendas.model.enums.StatusPedidoEnum;
 import br.com.vendas.repository.ClienteRepository;
 import br.com.vendas.repository.ItemPedidoRepository;
 import br.com.vendas.repository.PedidoRepository;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,13 +44,28 @@ public class PedidoSeviceImpl implements PedidoService   {
         pedido.setTotal(pedidoDTO.getTotal());
         pedido.setDataPedido(LocalDate.now());
         pedido.setCliente(cliente);
+        pedido.setStatus(StatusPedidoEnum.REALIZADO);
 
-        List<ItemPedido> itemsPedido = converterIntems(pedido, pedidoDTO.getItems());
+        List<ItemPedido> itemsPedido = converterIntems(pedido, pedidoDTO.getItens());
         itemPedidoRepository.saveAll(itemsPedido);
         pedido.setItens(itemsPedido);
 
         return pedido;
     }
+
+    @Override
+    public Optional<Pedido> obterPedidoCompleto(Long id) {
+        return pedidoRepository.findIdFetchItens(id);
+    }
+
+    @Override
+    public void atualizarStatus(Long id, StatusPedidoEnum statusPedidoEnum) {
+        pedidoRepository.findById(id).map(pedido -> {
+            pedido.setStatus(statusPedidoEnum);
+            return pedidoRepository.save(pedido);
+        }).orElseThrow(PedidoNaoEncontradoException::new);
+    }
+
 
     private List<ItemPedido> converterIntems(Pedido pedido, List<ItemPedidoDTO> items) {
 

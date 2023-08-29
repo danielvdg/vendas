@@ -1,6 +1,6 @@
 package br.com.vendas.controller;
 
-import br.com.vendas.model.Produto;
+import br.com.vendas.model.entity.Produto;
 import br.com.vendas.repository.ProdutoRepository;
 import br.com.vendas.service.ProdutoService;
 import org.springframework.data.domain.Example;

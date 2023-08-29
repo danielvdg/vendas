@@ -1,4 +1,4 @@
-package br.com.vendas.model;
+package br.com.vendas.model.entity;
 
 import lombok.Getter;
 
@@ -13,4 +13,6 @@ public class ApiErrors {
     public ApiErrors(String mensagemErro) {
         this.errors = Arrays.asList(mensagemErro);
     }
+
+
 }
